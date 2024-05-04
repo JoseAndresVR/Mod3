@@ -1,6 +1,5 @@
 package com.krakedev.inventarios.servicios;
 
-import java.awt.PageAttributes.MediaType;
 import java.util.ArrayList;
 
 import javax.ws.rs.GET;
@@ -10,6 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import com.krakedev.inventarios.bdd.ProveedoresBDD;
+import com.krakedev.inventarios.excepciones.KrakedevException;
 import com.krakedev.inventrarios.entidades.Proveedores;
 
 @Path("proveedores")
@@ -23,7 +23,7 @@ public class ServiciosProveedores {
 		try {
 			proveedor = prov.buscar(subCadena);
 			return Response.ok(proveedor).build();
-		} catch (Exception e) {
+		} catch (KrakedevException e) {
 			e.printStackTrace();
 			return Response.serverError().build();
 		}
