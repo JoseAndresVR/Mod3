@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import com.krakedev.inventarios.excepciones.KrakedevException;
 import com.krakedev.inventarios.utils.ConexionBDD;
 import com.krakedev.inventrarios.entidades.Proveedores;
+import com.krakedev.inventrarios.entidades.tipoDocumentos;
 
 public class ProveedoresBDD {
 	
@@ -20,18 +21,19 @@ public class ProveedoresBDD {
 		Proveedores prov=null;
 		try {
 			con = ConexionBDD.obtenerCone();
-			ps=con.prepareStatement("select identificador,tipo_doc,nombre,telefono,correo,direccion"+
-			" from proveedores"+
-					" where upper(nombre) like ?");
+			ps=con.prepareStatement("select prov.identificador,prov.tipo_doc,td.descripcion,prov.nombre,prov.telefono,prov.correo,prov.direccion from proveedores prov,tipo_documento td"+
+					" where prov.tipo_doc = td.codigo and upper(nombre) like ?");
 			ps.setString(1, "%"+subcadena.toUpperCase()+"%");
 			rs=ps.executeQuery();
 			while(rs.next()) {
-				String td = rs.getString("tipo_doc");
+				String ctd = rs.getString("tipo_doc");
 				String nm = rs.getString("nombre");
 				String cr = rs.getString("correo");
 				String dr = rs.getString("direccion");
 				int id=rs.getInt("identificador");
 				int tl=rs.getInt("telefono");
+				String dc = rs.getString("descripcion");
+				tipoDocumentos td = new tipoDocumentos(ctd,dc);
 				prov=new Proveedores(id,tl,td,nm,cr,dr);
 				proveedor.add(prov);
 			}
