@@ -47,6 +47,33 @@ public class ProveedoresBDD {
 		return proveedor;
 	}
 	
+	public void crearP(Proveedores pv) throws KrakedevException {
+		Connection con=null;
+		PreparedStatement ps=null;
+
+		try {
+			con = ConexionBDD.obtenerCone();
+			ps=con.prepareStatement("INSERT INTO proveedores (identificador, tipo_doc, nombre, telefono, correo, direccion) VALUES"
+					+ "    (?, ?, ?, ?, ?, ?)");
+			ps.setInt(1, pv.getInd());
+			ps.setString(2, pv.getTipoD().getCodigo());
+			ps.setString(3, pv.getNombre());
+			ps.setInt(4, pv.getTelefono());
+			ps.setString(5, pv.getCorreo());
+			ps.setString(6, pv.getDireccion());
+			ps.executeUpdate();
+			
+		}catch(KrakedevException e){
+			e.printStackTrace();
+			throw e;
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+			throw new KrakedevException("Error al crear el proveedor");
+		}
+
+	}
+	
 	
 	
 }
