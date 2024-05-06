@@ -22,7 +22,7 @@ public class ProveedoresBDD {
 		try {
 			con = ConexionBDD.obtenerCone();
 			ps=con.prepareStatement("select prov.identificador,prov.tipo_doc,td.descripcion,prov.nombre,prov.telefono,prov.correo,prov.direccion from proveedores prov,tipo_documento td"+
-					" where prov.tipo_doc = td.codigo and upper(nombre) like ?");
+					" where prov.tipo_doc = td.codigotp and upper(nombre) like ?");
 			ps.setString(1, "%"+subcadena.toUpperCase()+"%");
 			rs=ps.executeQuery();
 			while(rs.next()) {

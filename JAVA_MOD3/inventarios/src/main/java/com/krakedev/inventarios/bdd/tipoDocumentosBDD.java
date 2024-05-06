@@ -22,7 +22,7 @@ public class tipoDocumentosBDD {
 			ps=con.prepareStatement("select * from tipo_documento");
 			rs=ps.executeQuery();
 			while(rs.next()) {
-				String cd = rs.getString("codigo");
+				String cd = rs.getString("codigotp");
 				String ds = rs.getString("descripcion");
 				td=new tipoDocumentos(cd,ds);
 				tipoD.add(td);
