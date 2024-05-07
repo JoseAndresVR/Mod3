@@ -14,6 +14,8 @@ import com.krakedev.inventrarios.entidades.UnidadesDeMedida;
 import com.krakedev.inventrarios.entidades.categorias;
 
 public class ProductosBDD {
+	
+	
 	public ArrayList<Productos> buscar(String subcadena) throws KrakedevException{
 		ArrayList<Productos> productos = new ArrayList<Productos>();
 		Connection con=null;
@@ -28,12 +30,12 @@ public class ProductosBDD {
 				    + "FROM productos prod, unidades_medida udm, categorias cat "
 				    + "WHERE prod.codigo_udm = udm.nombre_unidad_medida "
 				    + "AND prod.codigo_cat = cat.codigoca "
-				    + "AND prod.nombre_producto LIKE ?");
+				    + "AND upper(prod.nombre_producto) LIKE ?");
 
-			ps.setString(1, subcadena);
+			ps.setString(1, "%"+subcadena.toUpperCase()+"%");
 			rs=ps.executeQuery();
-			while(rs.next()) {
-				int codigoProducto = rs.getInt("codigop");
+			if(rs.next()) {
+				int codigoProducto = rs.getInt("codigo_producto");
 				String nombreProducto = rs.getString("nombre_producto");
 				String	nombreUnidadMedida = rs.getString("nombre_unidad_medida");
 				String descripcionUnidadMedida=rs.getString("descripcion");
@@ -42,7 +44,7 @@ public class ProductosBDD {
 				BigDecimal precioProducto = rs.getBigDecimal("precio");
 				
 				boolean tieneIva = rs.getBoolean("tiene_iva");
-				int codigoCategoria = rs.getInt("codigoca");
+				int codigoCategoria = rs.getInt("codigo_cat");
 				int stock = rs.getInt("stock");
 				
 				UnidadesDeMedida udm = new UnidadesDeMedida();
@@ -74,4 +76,32 @@ public class ProductosBDD {
 		}
 		return productos;
 	}
+	
+	public void crearProd(Productos pr) throws KrakedevException {
+		Connection con=null;
+		PreparedStatement ps=null;
+		try {
+			con = ConexionBDD.obtenerCone();
+			ps=con.prepareStatement("INSERT INTO productos (codigop, nombre_producto, codigo_udm, precio, tiene_iva, coste, codigo_cat, stock) VALUES "
+					+ "( ?, ?, ?, ?, ?, ?, ?, ?)");
+			ps.setInt(1, pr.getCodigo());
+			ps.setString(2, pr.getNombre());
+			ps.setString(3, pr.getUdm().getNombre());
+			ps.setBigDecimal(4, pr.getPrecioVenta());
+			ps.setBoolean(5, pr.getTieneIva());
+			ps.setBigDecimal(6, pr.getCoste());
+			ps.setInt(7, pr.getCategoria().getCodigo());
+			ps.setInt(8, pr.getStock());
+			ps.executeUpdate();
+			
+		}catch(KrakedevException e){
+			e.printStackTrace();
+			throw e;
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+			throw new KrakedevException("Error al crear el producto");
+		}
+	}
+	
 }

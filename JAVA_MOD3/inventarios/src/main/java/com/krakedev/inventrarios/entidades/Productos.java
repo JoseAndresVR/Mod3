@@ -67,7 +67,7 @@ public class Productos {
 		this.coste = coste;
 	}
 
-	public boolean isTieneIva() {
+	public boolean getTieneIva() {
 		return tieneIva;
 	}
 
