@@ -2,14 +2,14 @@ package com.krakedev.inventrarios.entidades;
 
 public class categorias {
 
-	private String nombre,categoria_padre;
-	private int codigo;
+	private String nombre;
+	private int codigo,categoria_padre;
 	
 	public categorias() {
 		super();
 	}
 
-	public categorias(int codigo, String nombre, String categoria_padre) {
+	public categorias(int codigo, String nombre, int categoria_padre) {
 		super();
 		this.codigo = codigo;
 		this.nombre = nombre;
@@ -32,11 +32,11 @@ public class categorias {
 		this.nombre = nombre;
 	}
 
-	public String getCategoria_padre() {
+	public int getCategoria_padre() {
 		return categoria_padre;
 	}
 
-	public void setCategoria_padre(String categoria_padre) {
+	public void setCategoria_padre(int categoria_padre) {
 		this.categoria_padre = categoria_padre;
 	}
 

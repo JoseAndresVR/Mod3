@@ -7,53 +7,53 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import com.krakedev.inventarios.bdd.PedidosBDD;
+import com.krakedev.inventarios.bdd.CategoriasBDD;
 import com.krakedev.inventarios.excepciones.KrakedevException;
-import com.krakedev.inventrarios.entidades.Pedidos;
+import com.krakedev.inventrarios.entidades.categorias;
 
-@Path("pedidos")
-public class ServiciosPedidos {
-	@Path("registrar")
+@Path("categoria")
+public class ServicioCategorias {
+	@Path("crear")
 	@POST
 	@Consumes(javax.ws.rs.core.MediaType.APPLICATION_JSON)
-	public Response insertarP(Pedidos pd) {
-		PedidosBDD pedido = new PedidosBDD();
+	public Response crearProd(categorias categoria) {
+		CategoriasBDD cat = new CategoriasBDD();
 		try {
-			pedido.insertar(pd);
+			cat.crearCat(categoria);
 			return Response.ok().build();
-		} catch (KrakedevException e) {
-			e.printStackTrace();
-			return Response.serverError().build();
-		}
-	}
-	@Path("recibir")
-	@PUT
-	@Consumes(javax.ws.rs.core.MediaType.APPLICATION_JSON)
-	public Response recibirP(Pedidos pdR) {
-		PedidosBDD pedido = new PedidosBDD();
-		try {	
-			pedido.update(pdR);
-			return Response.ok().build();
-		} catch (KrakedevException e) {
+		}  catch (KrakedevException e) {
 			e.printStackTrace();
 			return Response.serverError().build();
 		}
 	}
 	
-	@Path("buscar/{ind}")
+	@Path("actualizar")
+	@PUT
+	@Consumes(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+	public Response actualizarProd(categorias categoria) {
+		CategoriasBDD cat = new CategoriasBDD();
+		try {
+			cat.actualizarCat(categoria);
+			return Response.ok().build();
+		}  catch (KrakedevException e) {
+			e.printStackTrace();
+			return Response.serverError().build();
+		}
+	}
+	
+	@Path("recuperar")
 	@GET
 	@Produces(javax.ws.rs.core.MediaType.APPLICATION_JSON)
-	public Response buscarPorProveedor(@PathParam("ind")int identificador) {
-		PedidosBDD pedido = new PedidosBDD();
-		ArrayList<Pedidos> pedidos = null;
-		try {	
-			pedidos = pedido.pedidosPorProv(identificador);
-			return Response.ok(pedidos).build();
-		} catch (KrakedevException e) {
+	public Response recuperarProd() {
+		CategoriasBDD cat = new CategoriasBDD();
+		ArrayList<categorias> categorias = null;
+		try {
+			categorias = cat.recuperarCat();
+			return Response.ok(categorias).build();
+		}  catch (KrakedevException e) {
 			e.printStackTrace();
 			return Response.serverError().build();
 		}

@@ -43,4 +43,19 @@ public class ServiciosProveedores {
 			return Response.serverError().build();
 		}
 	}
+	
+	@Path("buscarProv/{iden}")
+	@GET
+	@Produces(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+	public Response buscar(@PathParam("iden")int identificador){
+		ProveedoresBDD prov = new ProveedoresBDD();
+		Proveedores proveedor = null;
+		try {
+			proveedor=prov.buscarProveedorPorId(identificador);
+			return Response.ok(proveedor).build();
+		} catch (KrakedevException e) {
+			e.printStackTrace();
+			return Response.serverError().build();
+		}
+	}
 }

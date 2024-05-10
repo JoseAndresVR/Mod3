@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import com.krakedev.inventarios.excepciones.KrakedevException;
 import com.krakedev.inventarios.utils.ConexionBDD;
 import com.krakedev.inventrarios.entidades.Productos;
+import com.krakedev.inventrarios.entidades.Proveedores;
 import com.krakedev.inventrarios.entidades.UnidadesDeMedida;
 import com.krakedev.inventrarios.entidades.categorias;
+import com.krakedev.inventrarios.entidades.tipoDocumentos;
 
 public class ProductosBDD {
 	
@@ -102,6 +104,75 @@ public class ProductosBDD {
 			e.printStackTrace();
 			throw new KrakedevException("Error al crear el producto");
 		}
+	}
+	
+	
+	/*ACTUALIZAR PRODUCTO*/
+	public void actualizarP(Productos pr)throws KrakedevException {
+		Connection con=null;
+		PreparedStatement ps=null;
+		try {
+			con = ConexionBDD.obtenerCone();
+			ps=con.prepareStatement("UPDATE productos set nombre_producto=?, codigo_udm=?, precio=?, tiene_iva=?, coste=?, codigo_cat=?, stock=? where codigop=? ");
+			ps.setString(1, pr.getNombre());
+			ps.setString(2, pr.getUdm().getNombre());
+			ps.setBigDecimal(3, pr.getPrecioVenta());
+			ps.setBoolean(4, pr.getTieneIva());
+			ps.setBigDecimal(5, pr.getCoste());
+			ps.setInt(6, pr.getCategoria().getCodigo());
+			ps.setInt(7, pr.getStock());
+			ps.setInt(8, pr.getCodigo());
+			ps.executeUpdate();
+		} catch(KrakedevException e){
+			e.printStackTrace();
+			throw e;
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+			throw new KrakedevException("Error al actualizar el producto");
+		}
+	}
+	
+	public Productos buscarProductoPorId(int ide) throws KrakedevException {
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		Productos producto=null;
+		try {
+			con = ConexionBDD.obtenerCone();
+			ps = con.prepareStatement("select prod.codigop AS codigo_producto, prod.nombre_producto,"
+					+ "prod.tiene_iva,CAST(prod.coste AS DECIMAL(5,2)),CAST(prod.precio AS DECIMAL(6,2))"
+					+ ",prod.codigo_cat,prod.stock,prod.codigo_udm from productos prod where codigop = ?");
+			ps.setInt(1, ide);
+			rs=ps.executeQuery();
+			if(rs.next()) {
+				int id=rs.getInt("codigo_producto"),stock=rs.getInt("stock");
+				categorias categoria = new categorias();
+				categoria.setCodigo(rs.getInt("codigo_cat"));
+				UnidadesDeMedida udm = new UnidadesDeMedida();
+				udm.setNombre(rs.getString("codigo_udm"));
+				String nombre = rs.getString("nombre_producto");
+				BigDecimal precio=rs.getBigDecimal("precio"),coste=rs.getBigDecimal("coste");
+				Boolean tieneIva=rs.getBoolean("tiene_iva");
+				producto = new Productos();
+				producto.setCategoria(categoria);
+				producto.setCodigo(id);
+				producto.setStock(stock);
+				producto.setTieneIva(tieneIva);
+				producto.setNombre(nombre);
+				producto.setPrecioVenta(precio);
+				producto.setCoste(coste);
+				producto.setUdm(udm);
+				
+			}
+		} catch (KrakedevException e) {
+			e.printStackTrace();
+			throw e;
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new KrakedevException("Error al consultar");
+		}
+		return producto;
 	}
 	
 }
