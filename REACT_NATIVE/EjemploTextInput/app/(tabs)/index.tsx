@@ -16,16 +16,42 @@ export default function App() {
       marginVertical:10
     },
 });
-  
-  
-  return (
+
+const [nombre,setNombre]=useState("Ingrese su nombre");
+const [apellido, setApellido]=useState("Ingrese su apellido")
+const [nombreCompleto,setNombreCompleto]=useState("");  
+return (
     <View style={styles.container}>
       <Text>Ejemplo Text Input</Text>
       <TextInput
         style={styles.cajaTexto}
-        value='Ingrese un valor'
-        onChangeText={}
+        value={nombre}
+        onChangeText={(txt)=>{
+          setNombre(txt);
+        }}
       />
+      <TextInput
+        style={styles.cajaTexto}
+        value={apellido}
+        onChangeText={(txt)=>{
+          setApellido(txt);
+        }}
+      />
+      <Text>
+        Hola {nombreCompleto}
+      </Text>
+
+      <Button
+        title='Saludar'
+        onPress={()=>{
+            let completo = nombre+" "+apellido;
+            setNombreCompleto(completo);
+            
+        }}
+
+      
+      />
+      
 
 
     </View>
