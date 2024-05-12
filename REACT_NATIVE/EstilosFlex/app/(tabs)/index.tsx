@@ -15,6 +15,7 @@ export default function App() {
         <View style={styles.cj4}>
           <View style={styles.cj6}>
             <Button title='Boton 1'/>
+            <Text></Text>
             <Button title='Boton 2'/>
           </View>
           <View style={styles.cj7}>
