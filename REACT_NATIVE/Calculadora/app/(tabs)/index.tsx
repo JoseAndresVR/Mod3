@@ -35,7 +35,6 @@ export default function App() {
             let suma = num1+num2;
             setResultado("Resultado: "+suma);
           }}
-          
         />
         
         <Button
