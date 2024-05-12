@@ -38,6 +38,40 @@ export default function App() {
           
         />
         
+        <Button
+          
+          title='Restar'
+          onPress={()=>{
+            let num1=parseInt(numero1);
+            let num2=parseInt(numero2);
+            let resta = num1-num2;
+            setResultado("Resultado: "+resta);
+          }}
+          
+        />
+        <Button
+          
+          title='Multiplicar'
+          onPress={()=>{
+            let num1=parseInt(numero1);
+            let num2=parseInt(numero2);
+            let mul = num1*num2;
+            setResultado("Resultado: "+mul);
+          }}
+          
+        />
+        <Button
+          
+          title='Dividir'
+          onPress={()=>{
+            let num1=parseFloat(numero1);
+            let num2=parseFloat(numero2);
+            let div = num1/num2;
+            setResultado("Resultado: "+div);
+          }}
+          
+        />
+        
     </View>
   );
 }
