@@ -1,6 +1,7 @@
 import React from 'react';
-import { View,Text, Button, Alert,TextInput,StyleSheet,FlatList,ScrollView } from 'react-native';
+import { View,Text, Button, Alert,TextInput,StyleSheet,FlatList,ScrollView,TouchableHighlight, Modal } from 'react-native';
 import { useState } from 'react';
+
 let productos = [
   {nombre:'iPhone 13',categoria:'Electrónica',precioCompra:800,precioVenta:960,id:'01'},
   {nombre:'Camiseta Adidas',categoria:'Ropa',precioCompra:20,precioVenta:24,id:'02'}
@@ -80,30 +81,78 @@ export default function App() {
                   <View style={{flexDirection:'row',alignItems:'center'}}>
                     <Text style={{fontWeight:'bold',marginRight:15}}>$ {props.productos.precioVenta}</Text>
                     <View style={{margin:3}}>
-                      <Button
-                        title=' E '
-                        onPress={()=>{
-                          setCodigo(props.productos.id)
-                          setCategoria(props.productos.categoria);
-                          setNombre(props.productos.nombre);
-                          setPrecioC(props.productos.precioCompra);
-                          calcularPrecioVenta(props.productos.precioCompra);
-                          esNuevo=false;
-                          indiceSel=props.indice
-                          
-                        }}
-                      />
+
+                      <TouchableHighlight 
+                                          activeOpacity={0.6}
+                                          underlayColor="green"
+                                          onPress={()=>{setCodigo(props.productos.id)
+                                            setCategoria(props.productos.categoria);
+                                            setNombre(props.productos.nombre);
+                                            setPrecioC(props.productos.precioCompra);
+                                            calcularPrecioVenta(props.productos.precioCompra);
+                                            esNuevo=false;
+                                            indiceSel=props.indice}}>
+                          <Text style={styles.buttonE}>E</Text>
+                      </TouchableHighlight>
+
                     </View>
+
                     <View style={{margin:3}}>
-                      
-                      <Button
-                         title=' X '
-                         onPress={()=>{
-                          indiceSel=props.indice
-                          productos.splice(indiceSel,1);
-                          setNproductos(productos.length);
-                         }}
-                      />
+                    <Modal
+                            animationType='slide'
+                            transparent={true}
+                            visible={modalVisible}
+                            onRequestClose={hideModal}                
+                          >
+                            <View style={styles.modalContainer}>
+                                <View style={styles.modalContent}>
+                                  
+                                  <Text style={{textAlign:'center',marginBottom:5}}>SE ELIMINARÁ ESTE PRODUCTO PERMANENTEMENTE</Text>
+                                  <Text style={{textAlign:'center',fontWeight:'bold'}}>¿DESEA CONTINUAR CON LA ELIMINACION?</Text>
+                                  
+                                  <View style={styles.modalButtons}>
+                                        <TouchableHighlight
+                                            activeOpacity={0.6}
+                                            underlayColor="green"
+                                            onPress={()=>{
+                                              productos.splice(indiceSel,1);
+                                              setNproductos(productos.length);
+                                              hideModal();
+                                            }}
+                                        >
+                                        <Text style={{backgroundColor:'green',color:'white',fontWeight:'bold',padding:10,borderRadius:4}}>ACEPTAR</Text>
+                                        </TouchableHighlight>
+
+                                        <TouchableHighlight
+                                            activeOpacity={0.6}
+                                            underlayColor="red"
+                                            onPress={()=>{
+                                              hideModal();
+                                            }}
+                                        >
+                                        <Text style={{backgroundColor:'crimson',color:'white',fontWeight:'bold',padding:10,borderRadius:4}}>RECHAZAR</Text>
+                                        </TouchableHighlight>
+                                  </View>            
+
+
+                                </View>
+
+
+                            </View>
+
+
+
+
+                          </Modal>
+                      <TouchableHighlight 
+                                          activeOpacity={0.6}
+                                          underlayColor="red"
+                                          onPress={()=>{indiceSel=props.indice
+                                            showModal();
+                                            }}>
+                          
+                          <Text style={styles.buttonX}>X</Text>
+                      </TouchableHighlight>
                     </View>
                   </View>
                 </View>
@@ -111,15 +160,24 @@ export default function App() {
     );
     };
 
-  return (
+const [modalVisible, setModalVisible] = useState(false)
+const showModal = () => {
+  setModalVisible(true);
+};
+
+const hideModal = () => {
+  setModalVisible(false);
+};
+// INICIO DE APP /////////////////////////////////////////////////////////////////////////////////////////////////////
   
-
-
+return (
+  
     <View style={styles.body}>
     <ScrollView style={{marginVertical:80,flex:1}}>
-         {/* SUPERIOR */}
+
+   {/* //     // { SUPERIOR }//////////////////////////////////////////////////////////////////////////////////////////////*/ }
       <View style={styles.sup}>
-        <Text style={{fontWeight:'bold',textAlign:'center',marginBottom:20,fontSize:25}}>PRODUCTOS</Text>
+        <Text style={{fontWeight:'bold',textAlign:'center',marginBottom:20,fontSize:55,marginTop:12}}>PRODUCTOS</Text>
         <TextInput
           style={styles.formu}
           placeholder='CODIGO'
@@ -270,5 +328,49 @@ const styles = StyleSheet.create({
       borderRadius:15,
       width:350,
     
-  }
+  },
+  buttonE: {
+    alignItems: 'center',
+    backgroundColor: 'lightskyblue',
+    padding: 10,
+    borderRadius:5,
+    width:40,
+    textAlign:'center',
+    color:'white'
+    
+    
+
+  },buttonX: {
+    alignItems: 'center',
+    backgroundColor: 'darkslateblue',
+    padding: 10,
+    borderRadius:5,
+    width:40,
+    textAlign:'center',
+    color:'white'
+    
+    
+
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fondo semitransparente
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    width: 250,
+    height:200,
+    justifyContent:'center',
+    
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 20,
+    
+  },
 });
