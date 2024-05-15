@@ -55,7 +55,4 @@ const styles = StyleSheet.create({
       marginVertical:5,
       borderRadius:15
     },
-    negrita:{
-      strong:2
-    }
 });
