@@ -37,7 +37,6 @@ export default function App() {
   }
 
   let guardarProducto=()=>{
-    console.log(esNuevo);
 
     if (esNuevo) {
       if (existePersona()) {
@@ -175,13 +174,11 @@ export default function App() {
               title='GUARDAR'
               onPress={()=>{
                 if(nombreU==null && codigoU==null && categoriaU==null && precioC==null && precioV==null){
-                  
                   Alert.alert("INFO","TIENES QUE RELLENAR TODOS LOS CAMPOS")
-                  console.log(productos)
                   
                 }else{
                   guardarProducto();
-                  console.log(productos);
+
                 }
                 setNproductos(productos.length);
               }}
