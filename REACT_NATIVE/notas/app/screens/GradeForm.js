@@ -7,19 +7,25 @@ import React, { useState } from 'react';
 import {saveGrade,updateGrade} from '../screens/services/GradeServices'
 
 
-export const GradeForm =({navigation,route})=>{
+export const GradeForm =({navigation})=>{
     let isNew=true;
     let subjectR
     let gradeR
 
-    if(route.params.objeto!=null){
-        isNew=false;
-    };
+    // if (route.params?.objeto != null) {
+    //     isNew = false;
+    //     subjectR = route.params.objeto.subject;
+    //     gradeR = route.params.objeto.grade;
+    //   }
 
-    if (!isNew) {
-        subjectR = route.params.objeto.subject
-        gradeR = route.params.objeto.grade
-    };
+    // if(route.params.objeto!=null){
+    //     isNew=false;
+    // };
+
+    // if (!isNew) {
+    //     subjectR = route.params.objeto.subject
+    //     gradeR = route.params.objeto.grade
+    // };
 
     const [subject,setSubject]=useState(subjectR);
 
@@ -32,7 +38,7 @@ export const GradeForm =({navigation,route})=>{
     let hasError=false;
     
     
-console.log(route.params.objeto);
+// console.log(route.params.objeto);
 
     const save=()=>{
         setErrorGrades();
@@ -51,17 +57,17 @@ console.log(route.params.objeto);
 
 }
 
-const validate=()=>{
-    if (subject==null || subject=="") {
-        setErrorSub("DEBE INGRESAR UNA MATERIA");
-        hasError=true;
-    }
-    let gradeFloat =parseFloat(grade)
-    if (grade==null || isNaN(gradeFloat) || grade<0 || grade>10) {
-        setErrorGrades("DEBE INGRESAR UNA NOTA ENTRE 0-10");
-        hasError=true;
-    }
-}
+// const validate=()=>{
+//     if (subject==null || subject=="") {
+//         setErrorSub("DEBE INGRESAR UNA MATERIA");
+//         hasError=true;
+//     }
+//     let gradeFloat =parseFloat(grade)
+//     if (grade==null || isNaN(gradeFloat) || grade<0 || grade>10) {
+//         setErrorGrades("DEBE INGRESAR UNA NOTA ENTRE 0-10");
+//         hasError=true;
+//     }
+// }
    
    return(
         <View style={styles.container}>

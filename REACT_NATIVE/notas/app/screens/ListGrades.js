@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View,FlatList,TouchableHighlight } from 'react-native';
 import {getGrades} from '../screens/services/GradeServices'
-import { FAB } from '@rneui/themed';
+import { Button, FAB } from '@rneui/themed';
 import { ListItem } from '@rneui/themed';
 import { Avatar } from '@rneui/themed';
 import { useState } from 'react';
@@ -48,6 +48,9 @@ export const ListGrades =({navigation})=>{
     
     
     return(
+
+        
+
         <View style={styles.container}>
             <FlatList
                 data={getGrades()}
@@ -65,10 +68,14 @@ export const ListGrades =({navigation})=>{
                 placement='right'
                 color='red'
                 onPress={()=>{
-                    navigation.navigate('GradeNav',{objeto:null,fnRefresh:refreshList})
+                    navigation.navigate('GradeNav',{objeto:nota,fnRefresh:refreshList})
                 }}
             />
+            
         </View>
+
+        
+        // 
 
     );
 }
